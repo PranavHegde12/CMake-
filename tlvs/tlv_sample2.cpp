@@ -14,9 +14,21 @@ int main(){
     0x03, 0x44, 0x03, 0x42, 0x03, 0x5e, 0x03, 0x5f, 0x03, 0x9f, 0x07, 0x02, 0xff, 0x00, 0x9f, 0x08, 
     0x02, 0x00, 0x02, 0x9f, 0x0d, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x9f, 0x0e, 0x05, 0x00, 0x00, 
     0x00, 0x00, 0x00, 0x9f, 0x0f, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x9f, 0x42, 0x02, 0x09, 0x78, 0x9f, 0x4a, 0x01, 0x82};
+
+    int sz = temp_array.size();
+
+    // printing all the values of temp_array
+    /*
+    for(auto a: temp_array){
+        cout<<hex<<static_cast<int> (a)<<" ";
+    }
+    cout<<endl;
+    cout<<hex<<static_cast<int>(temp_array[1])<<endl;
     cout<<"check flag 1! "<<temp_array[0]<<endl;
     cout<<"check flag 2! "<<(temp_array[0] & 0x1F)<<endl;
-    
+    */
+
+    // checking whether nested
     bool nested = 0;
     if( temp_array[0] & 0x20){
         nested = 1;
@@ -27,13 +39,46 @@ int main(){
     // tag values
     cout<<"The tag value is : ";
     if((temp_array[0] & 0x1F) == 0x1F){
-        cout<<temp_array[0]<<" ";
+        cout<<hex<<static_cast<int>(temp_array[0])<<" ";
         i++;
         cout<<temp_array[i]<<" ";
         while( temp_array[i] & 0x80){
-            cout<<temp_array[i+1]<<" ";
+            i++;
+            cout<<hex<<static_cast<int>(temp_array[i])<<" ";
+        }
+        cout<<endl;
+    }
+    else{
+        cout<<hex<<static_cast<int>(temp_array[i])<<endl;
+        i++;
+        cout<<"Check flag 3 i value "<<i<<endl;
+    }
+
+    // length values
+    cout<<"Length values are: ";
+    if((temp_array[i]& 0x80)){
+        int length_value = (temp_array[i] & 0x7F);
+        int till = i + length_value;
+        i++;
+        while(i <= till){
+            cout<<hex<<static_cast<int>(temp_array[i])<<" ";
             i++;
         }
         cout<<endl;
     }
+    else{
+        cout<<hex<<static_cast<int>(temp_array[i])<<endl;
+        i++;
+        cout<<"check flag i val "<<i<<endl;
+    }
+
+    // actual data
+    cout<<"The data is: ";
+    while(i < sz){
+        cout<<hex<<static_cast<int>(temp_array[i])<<" ";
+        i++;
+    }
+    cout<<endl;
+
+
 }
